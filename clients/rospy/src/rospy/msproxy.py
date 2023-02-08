@@ -48,6 +48,8 @@ import rospy.names
 import rospy.impl.paramserver
 import rospy.impl.masterslave
 
+from rospy.behavior_logging import log as blog
+
 _master_arg_remap = { 
     'deleteParam': [0], # remap key
     'setParam': [0], # remap key
@@ -114,6 +116,9 @@ class MasterProxy(object):
         """
         #NOTE: remapping occurs here!
         resolved_key = rospy.names.resolve_name(key)
+
+        blog(f"param_get_name {resolved_key}")
+
         try:
             return rospy.impl.paramserver.get_param_server_cache().get(resolved_key)
         except KeyError:
@@ -133,6 +138,8 @@ class MasterProxy(object):
         """
         resolved_key = rospy.names.resolve_name(key)
 
+        blog(f"param_set_name {resolved_key}")
+
         self.target.setParam(rospy.names.get_caller_id(), resolved_key, val)
         try:
             rospy.impl.paramserver.get_param_server_cache().update(resolved_key, val)
@@ -147,6 +154,8 @@ class MasterProxy(object):
         @raise ROSException: if parameter server reports an error
         """
         # #1810 searchParam has to use unresolved form of mappings
+        blog(f"param_search {key}")
+
         mappings = rospy.names.get_mappings()
         if key in mappings:
             key = mappings[key]
@@ -160,6 +169,8 @@ class MasterProxy(object):
 
     def get_param_cached(self, key):
         resolved_key = rospy.names.resolve_name(key)
+        blog(f"param_set_name {resolved_key}")
+
         try:
             # check for value in the parameter server cache
             return rospy.impl.paramserver.get_param_server_cache().get(resolved_key)
@@ -181,6 +192,9 @@ class MasterProxy(object):
         @raise ROSException: if parameter server reports an error
         """
         resolved_key = rospy.names.resolve_name(key)
+
+        blog(f"param_del {key}")
+
         code, msg, _ = self.target.deleteParam(rospy.names.get_caller_id(), resolved_key)
         if code == -1:
             raise KeyError(key)

@@ -124,6 +124,7 @@ add_library(roscpp
   src/libros/service.cpp
   src/libros/this_node.cpp
   src/libros/steady_timer.cpp
+  src/libros/behavior_logging.cpp
   )
 
 if(WIN32)

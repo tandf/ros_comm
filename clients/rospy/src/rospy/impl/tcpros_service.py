@@ -73,6 +73,8 @@ else:
 
 logger = logging.getLogger('rospy.service')
 
+from rospy.behavior_logging import log as blog
+
 #########################################################
 # Service helpers
 
@@ -420,6 +422,7 @@ class ServiceProxy(_Service):
         self.protocol = TCPROSServiceClient(self.resolved_name,
                                             self.service_class, headers=headers)
         self.transport = None #for saving persistent connections
+        blog(f"service_client {self.resolved_name}")
 
     def wait_for_service(self, timeout=None):
         wait_for_service(self.resolved_name, timeout=timeout)
@@ -720,3 +723,4 @@ class Service(ServiceImpl):
 
         #TODO: make service manager configurable
         get_service_manager().register(self.resolved_name, self)
+        blog(f"service_server {self.resolved_name}")

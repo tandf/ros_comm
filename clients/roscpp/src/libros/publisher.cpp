@@ -30,6 +30,7 @@
 #include "ros/node_handle.h"
 #include "ros/subscriber_link.h"
 #include "ros/topic_manager.h"
+#include "ros/behavior_logging.h"
 
 namespace ros
 {
@@ -73,6 +74,7 @@ Publisher::Publisher(const std::string& topic, const std::string& md5sum, const 
   impl_->latch_ = latch;
   impl_->node_handle_ = boost::make_shared<NodeHandle>(node_handle);
   impl_->callbacks_ = callbacks;
+  blog("advertise " + topic);
 }
 
 Publisher::Publisher(const Publisher& rhs)

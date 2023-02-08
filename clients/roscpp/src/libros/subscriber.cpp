@@ -28,6 +28,7 @@
 #include "ros/subscriber.h"
 #include "ros/node_handle.h"
 #include "ros/topic_manager.h"
+#include "ros/behavior_logging.h"
 
 namespace ros
 {
@@ -65,6 +66,7 @@ namespace ros
     impl_->topic_ = topic;
     impl_->node_handle_ = boost::make_shared<NodeHandle>(node_handle);
     impl_->helper_ = helper;
+    blog("subscribe " + topic);
   }
 
   Subscriber::Subscriber(const Subscriber& rhs)

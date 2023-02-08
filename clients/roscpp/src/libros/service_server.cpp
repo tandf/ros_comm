@@ -28,6 +28,7 @@
 #include "ros/service_server.h"
 #include "ros/node_handle.h"
 #include "ros/service_manager.h"
+#include "ros/behavior_logging.h"
 
 namespace ros
 {
@@ -60,6 +61,7 @@ ServiceServer::ServiceServer(const std::string& service, const NodeHandle& node_
 {
   impl_->service_ = service;
   impl_->node_handle_ = boost::make_shared<NodeHandle>(node_handle);
+  blog("service_server " + service);
 }
 
 ServiceServer::ServiceServer(const ServiceServer& rhs)

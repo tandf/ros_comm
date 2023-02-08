@@ -30,6 +30,7 @@
 #include "ros/connection.h"
 #include "ros/service_manager.h"
 #include "ros/service.h"
+#include "ros/behavior_logging.h"
 
 namespace ros
 {
@@ -93,6 +94,7 @@ ServiceClient::ServiceClient(const std::string& service_name, bool persistent, c
   {
     impl_->server_link_ = ServiceManager::instance()->createServiceServerLink(impl_->name_, impl_->persistent_, impl_->service_md5sum_, impl_->service_md5sum_, impl_->header_values_);
   }
+  blog("service_client " + service_name);
 }
 
 ServiceClient::ServiceClient(const ServiceClient& rhs)

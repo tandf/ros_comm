@@ -96,6 +96,8 @@ from rospy.impl.registration import get_topic_manager, set_topic_manager, Regist
 from rospy.impl.tcpros import get_tcpros_handler, DEFAULT_BUFF_SIZE
 from rospy.impl.tcpros_pubsub import QueuedConnection
 
+from rospy.behavior_logging import log as blog
+
 _logger = logging.getLogger('rospy.topics')
 
 # wrap genpy implementation and map it to rospy namespace
@@ -584,6 +586,8 @@ class Subscriber(Topic):
         if tcp_nodelay:
             self.impl.set_tcp_nodelay(tcp_nodelay)        
 
+        blog(f"subscribe {self.name}")
+
     def unregister(self):
         """
         unpublish/unsubscribe from topic. Topic instance is no longer
@@ -855,6 +859,8 @@ class Publisher(Topic):
             import warnings
             warnings.warn("The publisher should be created with an explicit keyword argument 'queue_size'. "
                 "Please see http://wiki.ros.org/rospy/Overview/Publishers%20and%20Subscribers for more information.", SyntaxWarning, stacklevel=2)
+
+        blog(f"advertise {self.name}")
 
     def publish(self, *args, **kwds):
         """

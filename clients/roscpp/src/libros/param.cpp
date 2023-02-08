@@ -30,6 +30,7 @@
 #include "ros/xmlrpc_manager.h"
 #include "ros/this_node.h"
 #include "ros/names.h"
+#include "ros/behavior_logging.h"
 
 #include <ros/console.h>
 
@@ -67,6 +68,7 @@ void invalidateParentParams(const std::string& key)
 void set(const std::string& key, const XmlRpc::XmlRpcValue& v)
 {
   std::string mapped_key = ros::names::resolve(key);
+  blog("param_set_name " + key);
 
   XmlRpc::XmlRpcValue params, result, payload;
   params[0] = this_node::getName();
@@ -210,6 +212,7 @@ void set(const std::string& key, const std::map<std::string, bool>& map)
 
 bool has(const std::string& key)
 {
+  blog("param_has " + key);
   XmlRpc::XmlRpcValue params, result, payload;
   params[0] = this_node::getName();
   params[1] = ros::names::resolve(key);
@@ -227,6 +230,7 @@ bool has(const std::string& key)
 
 bool del(const std::string& key)
 {
+  blog("param_del " + key);
   std::string mapped_key = ros::names::resolve(key);
 
   {
@@ -258,6 +262,7 @@ bool getImpl(const std::string& key, XmlRpc::XmlRpcValue& v, bool use_cache)
 {
   std::string mapped_key = ros::names::resolve(key);
   if (mapped_key.empty()) mapped_key = "/";
+  blog("param_get_name " + key);
 
   if (use_cache)
   {
@@ -752,6 +757,7 @@ bool search(const std::string& key, std::string& result_out)
 bool search(const std::string& ns, const std::string& key, std::string& result_out)
 {
   XmlRpc::XmlRpcValue params, result, payload;
+  blog("param_search " + ns + " " + key);
   params[0] = ns;
 
   // searchParam needs a separate form of remapping -- remapping on the unresolved name, rather than the
