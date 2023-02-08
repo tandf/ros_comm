@@ -12,6 +12,9 @@ def gen_random(length=12) -> str:
                                   string.digits, k=length))
 
 def log(msg: str):
+    if not os.getenv("ROS_ENABLE_BLOG"):
+        return
+
     global fileName
 
     if not fileName:
@@ -23,11 +26,11 @@ def log(msg: str):
 
         # Generate random file name
         random_str = gen_random()
-        fileName = os.path.join(dir,random_str)
+        fileName = os.path.join(dir, f"{random_str}.txt")
 
         print(f"Blog file name: {fileName}")
         with open(fileName, "a+") as f:
-            f.write(f"<{get_name()}> open file\n")
+            f.write(f"{get_name()} (py) open file\n")
 
     msg = f"[{int(time())}] {get_name()} {msg}"
 

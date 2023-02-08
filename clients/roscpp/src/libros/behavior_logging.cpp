@@ -19,6 +19,12 @@ std::string gen_random(const int len) {
 
 void blog(std::string msg)
 {
+    char *enable = nullptr;
+    if (!(enable = std::getenv("ROS_ENABLE_BLOG")))
+        return;
+    else if (std::string(enable) == "")
+        return;
+
     if (fileName == "")
     {
         // Get log dir from env
@@ -30,11 +36,11 @@ void blog(std::string msg)
         srand(std::chrono::system_clock::now().time_since_epoch().count() *
               getpid());
         std::string random_str = gen_random(12);
-        fileName = dir + random_str;
+        fileName = dir + random_str + ".txt";
 
         std::cout << "Blog file name: " << fileName << std::endl;
         blog_file.open(fileName, std::ios::out | std::ios::app);
-        blog_file << "<" << ros::this_node::getName() << "> open file" << std::endl;
+        blog_file << ros::this_node::getName() << " (cpp) open file" << std::endl;
     }
 
     if (!blog_file.is_open())
