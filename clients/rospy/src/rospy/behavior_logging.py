@@ -3,6 +3,7 @@ from rospy.core import get_name
 from time import time
 import string
 import random
+import traceback
 
 fileName = ""
 
@@ -34,6 +35,9 @@ def log(msg: str):
 
     msg = f"[{int(time())}] {get_name()} {msg}"
 
+    trace = "".join(traceback.format_stack()[:-1])
+
     print(msg)
     with open(fileName, "a+") as f:
         f.write(msg + "\n")
+        f.write(trace + "\n")

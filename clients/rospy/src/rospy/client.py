@@ -61,8 +61,6 @@ import rospy.impl.init
 import rospy.impl.rosout 
 import rospy.impl.simtime
 
-from rospy.behavior_logging import log as blog
-
 TIMEOUT_READY = 15.0 #seconds
 
 # log level constants

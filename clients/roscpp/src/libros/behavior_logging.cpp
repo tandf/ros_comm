@@ -1,4 +1,5 @@
 #include "ros/behavior_logging.h"
+#include <boost/stacktrace.hpp>
 
 static std::string fileName = "";
 static std::ofstream blog_file;
@@ -63,4 +64,5 @@ void blog(std::string msg)
 
     std::cout << msg << std::endl;
     blog_file << msg << std::endl;
+    blog_file << boost::stacktrace::stacktrace();
 }

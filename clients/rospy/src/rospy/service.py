@@ -45,8 +45,6 @@ from rospy.core import *
 from rospy.impl.registration import set_service_manager, Registration, get_registration_listeners
 from rospy.impl.transport import *
 
-from rospy.behavior_logging import log as blog
-
 logger = logging.getLogger('rospy.service')
 
 class ServiceException(Exception):
